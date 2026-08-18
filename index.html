@@ -4,12 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>صحتك أولاً</title>
-
   <style>
     * {
       box-sizing: border-box;
     }
-
     body {
       margin: 0;
       min-height: 100vh;
@@ -21,7 +19,6 @@
       align-items: center;
       padding: 20px;
     }
-
     .card {
       width: 100%;
       max-width: 520px;
@@ -31,7 +28,6 @@
       padding: 30px 22px;
       box-shadow: 0 15px 50px #000;
     }
-
     .logo {
       text-align: center;
       color: #d4af37;
@@ -39,25 +35,21 @@
       font-weight: bold;
       margin-bottom: 8px;
     }
-
     .subtitle {
       text-align: center;
       color: #999;
       margin-bottom: 28px;
     }
-
     h1 {
       text-align: center;
       font-size: 22px;
       margin-bottom: 12px;
     }
-
     p {
       color: #aaa;
       text-align: center;
       line-height: 1.8;
     }
-
     input {
       width: 100%;
       padding: 16px;
@@ -69,339 +61,223 @@
       font-size: 16px;
       text-align: center;
     }
-
     button {
       width: 100%;
       padding: 16px;
       margin-top: 10px;
       border: 0;
       border-radius: 14px;
-      background: linear-gradient(135deg,#d4af37,#f1d477);
+      background: linear-gradient(135deg, #d4af37, #f1d477);
       color: #111;
       font-size: 16px;
       font-weight: bold;
       cursor: pointer;
     }
-
     .grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 12px;
       margin-top: 20px;
     }
-
     .option {
       min-height: 110px;
       background: #202020;
       color: white;
       border: 1px solid #444;
     }
-
     .icon {
       display: block;
       font-size: 32px;
       margin-bottom: 8px;
     }
-
     .back {
       background: #202020;
       color: #aaa;
       border: 1px solid #444;
       margin-top: 18px;
     }
-
     .hidden {
       display: none;
     }
-
     .message {
       text-align: center;
       margin-top: 12px;
       color: #ff7777;
     }
-
     .download {
       margin-top: 25px;
     }
   </style>
 </head>
-
 <body>
-
 <div class="card">
-
-  <!-- تسجيل الدخول -->
   <section id="login">
-
     <div class="logo">صحتك أولاً</div>
-
     <div class="subtitle">
       برامج التمارين
     </div>
-
     <h1>أدخل رمز الوصول</h1>
-
     <p>
-      أدخل الرمز الخاص الذي حصلت عليه بعد شراء الكتاب.
+      أدخل الرمز الخاص الذي حصلت عليه بعد شراء البرنامج.
     </p>
-
     <input
       id="code"
       type="text"
-      placeholder="مثال: HF-83921"
+      placeholder="أدخل رمز الوصول"
       autocomplete="off"
     >
-
     <button onclick="login()">
       دخول
     </button>
-
     <div id="message" class="message"></div>
-
   </section>
-
-
-  <!-- اختيار الجنس -->
   <section id="gender" class="hidden">
-
     <div class="logo">صحتك أولاً</div>
-
     <h1>اختر نوع التمارين</h1>
-
     <div class="grid">
-
       <button class="option" onclick="chooseGender('men')">
         <span class="icon">👨</span>
         تمارين الرجال
       </button>
-
       <button class="option" onclick="chooseGender('women')">
         <span class="icon">👩</span>
         تمارين النساء
       </button>
-
     </div>
-
     <button class="back" onclick="home()">
       رجوع
     </button>
-
   </section>
-
-
-  <!-- اختيار المكان -->
   <section id="location" class="hidden">
-
     <h1>أين ستتمرن؟</h1>
-
     <div class="grid">
-
       <button class="option" onclick="chooseLocation('home')">
         <span class="icon">🏠</span>
         المنزل
       </button>
-
       <button class="option" onclick="chooseLocation('gym')">
         <span class="icon">🏋️</span>
         النادي
       </button>
-
     </div>
-
     <button class="back" onclick="show('gender')">
       رجوع
     </button>
-
   </section>
-
-
-  <!-- اختيار الأيام -->
   <section id="days" class="hidden">
-
     <h1>اختر مدة البرنامج</h1>
-
     <div class="grid">
-
       <button class="option" onclick="chooseDays(3)">
         <span class="icon">3️⃣</span>
         3 أيام
       </button>
-
       <button class="option" onclick="chooseDays(4)">
         <span class="icon">4️⃣</span>
         4 أيام
       </button>
-
       <button class="option" onclick="chooseDays(5)">
         <span class="icon">5️⃣</span>
         5 أيام
       </button>
-
     </div>
-
     <button class="back" onclick="show('location')">
       رجوع
     </button>
-
   </section>
-
-
-  <!-- تحميل الملف -->
   <section id="result" class="hidden">
-
     <div class="logo">
       برنامجك جاهز
     </div>
-
     <p id="programName"></p>
-
     <button class="download" onclick="downloadFile()">
       📥 تحميل برنامج التمارين
     </button>
-
     <button class="back" onclick="show('days')">
       رجوع
     </button>
-
   </section>
-
 </div>
-
-
 <script>
-
 let accessCode = "";
 let gender = "";
 let locationType = "";
 let days = 0;
-
-
 function show(id) {
-
   document.querySelectorAll("section").forEach(section => {
     section.classList.add("hidden");
   });
-
   document.getElementById(id).classList.remove("hidden");
 }
-
-
 async function login() {
-
   const code =
-    document.getElementById("code")
-    .value
-    .trim()
-    .toUpperCase();
-
+    document.getElementById("code").value.trim().toUpperCase();
   const message =
     document.getElementById("message");
-
   if (!code) {
-
     message.textContent =
       "اكتب رمز الوصول أولاً.";
-
     return;
   }
-
   message.textContent =
     "جارٍ التحقق...";
-
   try {
-
-    const response =
-      await fetch(
-        "/.netlify/functions/verify",
-        {
-          method: "POST",
-
-          headers: {
-            "Content-Type": "application/json"
-          },
-
-          body: JSON.stringify({
-            code: code
-          })
-        }
-      );
-
-    const data =
-      await response.json();
-
+    const response = await fetch(
+      "/.netlify/functions/verify",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          code: code
+        })
+      }
+    );
+    const data = await response.json();
     if (!response.ok) {
-
       message.textContent =
         data.message ||
         "الرمز غير صحيح.";
-
       return;
     }
-
     accessCode = code;
-
     show("gender");
-
   } catch (error) {
-
     message.textContent =
       "حدث خطأ. حاول مرة أخرى.";
-
   }
 }
-
-
 function chooseGender(value) {
-
   gender = value;
-
   show("location");
 }
-
-
 function chooseLocation(value) {
-
   locationType = value;
-
   show("days");
 }
-
-
 function chooseDays(value) {
-
   days = value;
-
   const genderName =
     gender === "men"
       ? "الرجال"
       : "النساء";
-
   const locationName =
     locationType === "home"
       ? "المنزل"
       : "النادي";
-
-  document.getElementById("programName")
-    .textContent =
-      `برنامج ${genderName} — ${locationName} — ${days} أيام`;
-
+  document.getElementById("programName").textContent =
+    `برنامج ${genderName} — ${locationName} — ${days} أيام`;
   show("result");
 }
-
-
 async function downloadFile() {
-
   try {
-
     const response = await fetch(
       "/.netlify/functions/download",
       {
         method: "POST",
-
         headers: {
           "Content-Type": "application/json"
         },
-
         body: JSON.stringify({
           code: accessCode,
           gender: gender,
@@ -410,9 +286,7 @@ async function downloadFile() {
         })
       }
     );
-
     const data = await response.json();
-
     if (!response.ok) {
       alert(
         data.message ||
@@ -420,32 +294,27 @@ async function downloadFile() {
       );
       return;
     }
-
     if (!data.url) {
-      alert("رابط الملف غير موجود.");
+      alert(
+        "رابط الملف غير موجود."
+      );
       return;
     }
-
     window.location.href = data.url;
-
   } catch (error) {
-
-    alert("حدث خطأ أثناء تحميل الملف.");
-
+    alert(
+      "حدث خطأ أثناء تحميل الملف."
+    );
   }
 }
+function home() {
   accessCode = "";
   gender = "";
   locationType = "";
   days = 0;
-
-  document.getElementById("code")
-    .value = "";
-
+  document.getElementById("code").value = "";
   show("login");
 }
-
 </script>
-
 </body>
 </html>
