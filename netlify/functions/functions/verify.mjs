@@ -1,14 +1,35 @@
-export default async () => {
-  return new Response(
-    JSON.stringify({
-      valid: true,
-      message: "Function works"
-    }),
-    {
-      status: 200,
-      headers: {
-        "Content-Type": "application/json"
-      }
+const ACCESS_CODE = "SZ-78421";
+
+export default async (req) => {
+  if (req.method !== "POST") {
+    return Response.json(
+      { message: "Method not allowed" },
+      { status: 405 }
+    );
+  }
+
+  try {
+    const body = await req.json();
+
+    const code = String(body.code || "")
+      .trim()
+      .toUpperCase();
+
+    if (code !== ACCESS_CODE) {
+      return Response.json(
+        { message: "رمز الوصول غير صحيح." },
+        { status: 401 }
+      );
     }
-  );
+
+    return Response.json({
+      valid: true
+    });
+
+  } catch (error) {
+    return Response.json(
+      { message: "حدث خطأ في الخادم." },
+      { status: 500 }
+    );
+  }
 };
