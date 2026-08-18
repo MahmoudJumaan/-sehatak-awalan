@@ -18,13 +18,20 @@ export default async (req) => {
     const days = Number(body.days);
 
     // رمز الدخول
-     if (code !== "MH-26-6") {
-      return Response.json(
-        { message: "رمز الوصول غير صحيح." },
-        { status: 401 }
-      );
-    }
+     const validCodes = [
+  "MH-26-6",
+  "HNO-1-3",
+  "DOD-26-6",
+  "M7M-27-3",
+  "KNMM5"
+];
 
+if (!validCodes.includes(code)) {
+  return Response.json(
+    { message: "رمز الوصول غير صحيح." },
+    { status: 401 }
+  );
+}
     // ربط الاختيارات بأسماء الملفات
     const files = {
       "men_home_3": "/files/men_home_3.pdf",
