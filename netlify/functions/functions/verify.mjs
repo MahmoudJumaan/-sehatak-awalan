@@ -1,4 +1,4 @@
-const ACCESS_CODE = "SZ-78421";
+const ACCESS_CODE = "M7mod";
 
 export default async (req) => {
   if (req.method !== "POST") {
