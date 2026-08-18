@@ -18,7 +18,7 @@ export default async (req) => {
     const days = Number(body.days);
 
     // رمز الدخول
-    if (code !== "12345") {
+    if (code !== "mh-26-6") {
       return Response.json(
         { message: "رمز الوصول غير صحيح." },
         { status: 401 }
