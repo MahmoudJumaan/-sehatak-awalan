@@ -13,7 +13,7 @@ export default async (req) => {
       .trim()
       .toUpperCase();
 
-    if (code !== "m7mod") {
+    if (code !== "12345") {
       return Response.json(
         { message: "رمز الوصول غير صحيح." },
         { status: 401 }
