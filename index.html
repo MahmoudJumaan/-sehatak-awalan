@@ -393,77 +393,47 @@ async function downloadFile() {
 
   try {
 
-    const response =
-      await fetch(
-        "/.netlify/functions/download",
-        {
-          method: "POST",
+    const response = await fetch(
+      "/.netlify/functions/download",
+      {
+        method: "POST",
 
-          headers: {
-            "Content-Type": "application/json"
-          },
+        headers: {
+          "Content-Type": "application/json"
+        },
 
-          body: JSON.stringify({
+        body: JSON.stringify({
+          code: accessCode,
+          gender: gender,
+          location: locationType,
+          days: days
+        })
+      }
+    );
 
-            code: accessCode,
-
-            gender: gender,
-
-            location: locationType,
-
-            days: days
-
-          })
-        }
-      );
+    const data = await response.json();
 
     if (!response.ok) {
-
-      const data =
-        await response.json();
-
       alert(
         data.message ||
         "تعذر تحميل الملف."
       );
-
       return;
     }
 
-    const blob =
-      await response.blob();
+    if (!data.url) {
+      alert("رابط الملف غير موجود.");
+      return;
+    }
 
-    const url =
-      URL.createObjectURL(blob);
-
-    const link =
-      document.createElement("a");
-
-    link.href = url;
-
-    link.download =
-      `${gender}_${locationType}_${days}_days.pdf`;
-
-    document.body.appendChild(link);
-
-    link.click();
-
-    link.remove();
-
-    URL.revokeObjectURL(url);
+    window.location.href = data.url;
 
   } catch (error) {
 
-    alert(
-      "حدث خطأ أثناء تحميل الملف."
-    );
+    alert("حدث خطأ أثناء تحميل الملف.");
 
   }
 }
-
-
-function home() {
-
   accessCode = "";
   gender = "";
   locationType = "";
